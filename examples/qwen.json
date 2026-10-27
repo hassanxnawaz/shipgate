@@ -1,0 +1,9 @@
+{
+  "_note": "The call is RERUN, not SHIP: the +11 point estimate has a 90% interval from -7 to 30 and a guardrail over budget.",
+  "delta_pp": 11,
+  "ci_low": -7,
+  "ci_high": 30,
+  "guardrail_over": true,
+  "task_regressed": false,
+  "target_improved": false
+}
