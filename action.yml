@@ -1,0 +1,18 @@
+name: shipgate
+description: Fail the job unless the agent change is a SHIP.
+inputs:
+  file:
+    description: Path to one decision JSON file, relative to the repo root.
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Decide
+      shell: bash
+      env:
+        SHIPGATE_ACTION_PATH: ${{ github.action_path }}
+        SHIPGATE_INPUT_FILE: ${{ inputs.file }}
+      run: |
+        set -euo pipefail
+        cd "$SHIPGATE_ACTION_PATH"
+        go run . < "$GITHUB_WORKSPACE/$SHIPGATE_INPUT_FILE"
