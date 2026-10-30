@@ -1,0 +1,35 @@
+# Qwen failure demo. Documentation only; this is not an active workflow.
+#
+# To try it in your own repository:
+# 1. Copy this repo's examples/qwen.json to the same path in your repository.
+# 2. Copy the workflow below to .github/workflows/qwen-demo.yml, removing
+#    exactly the first "# " from each workflow line.
+# 3. Commit both files to your default branch, then use Actions > Run workflow.
+#
+# Expected: the gate prints RERUN and the SHA-256 fingerprint
+# ddd8c80582b8021d5abe3449732197753368c78cb19275e04192f0ee1157ee29.
+# The job deliberately fails: +11 with an interval of -7 to 30 is not a win.
+# The composite action uses go run, so its failing step exits 1; the compiled
+# shipgate binary would exit 3 for RERUN. Do not add continue-on-error or || true:
+# either would hide the failure this example is meant to demonstrate.
+# Nothing runs on push or pull_request. Remove the demo when finished.
+#
+# --- Begin workflow ---
+# name: Qwen gate demo (expected failure)
+# 'on':
+#   workflow_dispatch:
+# permissions:
+#   contents: read
+# jobs:
+#   qwen:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-go@v5
+#         with:
+#           go-version: '1.23.x'
+#           cache: false
+#       - name: Expect RERUN and a failed step
+#         uses: hassanxnawaz/shipgate@1947b60cc5538df1f302f081f7ef6b511e32f5b0
+#         with:
+#           file: examples/qwen.json
